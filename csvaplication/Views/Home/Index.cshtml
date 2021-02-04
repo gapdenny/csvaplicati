@@ -1,0 +1,114 @@
+﻿
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+
+<script src="~/js/table.js"></script>
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    @model IEnumerable<Services.Models.ViewCsv>
+    @{
+        ViewData["Title"] = "Index";
+    }
+</div>
+<form action="myFunction()">
+    <input type="text" id="myInput" name="filter">
+    <input type="button" value="Search"
+           onClick="filterTable();">
+    <select name="item" id="item">
+        <option value="0">By name</option>
+        <option value="1">By birth date</option>
+        <option value="2">By phone</option>
+        <option value="3">By salary</option>
+    </select>
+
+</form>
+
+
+<table class="table" id="example">
+    <thead>
+        <tr>
+            <th class="sorting_desc" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="Name: activate to sort column ascending" aria-sort="descending" onclick="sortTable(0)">
+                @Html.DisplayNameFor(model => model.FullName)
+            </th>
+            <th class="sorting_desc" tabindex="1" aria-controls="example" rowspan="1" colspan="1" aria-label="Name: activate to sort column ascending" aria-sort="descending" onclick="sortTable(1)">
+                @Html.DisplayNameFor(model => model.DateOfBirth)
+            </th>
+            <th class="sorting_desc" tabindex="1" aria-controls="example" rowspan="1" colspan="1" aria-label="Name: activate to sort column ascending" aria-sort="descending" onclick="sortTable(2)">
+                @Html.DisplayNameFor(model => model.Phone)
+            </th>
+            <th class="sorting_desc" tabindex="1" aria-controls="example" rowspan="1" colspan="1" aria-label="Name: activate to sort column ascending" aria-sort="descending" onclick="sortTable(3)">
+                @Html.DisplayNameFor(model => model.Salary)
+            </th>
+            <th class="sorting_desc" tabindex="1" aria-controls="example" rowspan="1" colspan="1" aria-label="Name: activate to sort column ascending" aria-sort="descending" onclick="sortTable(4)">
+                @Html.DisplayNameFor(model => model.IsMaried)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+
+                   <input type="text" id="full_name_@item.Id" value="@Html.DisplayFor(modelItem => item.FullName)"/> 
+                </td>
+                <td>
+                    <input type="date" id="DateOfBirth_@item.Id" value="@Html.DisplayFor(modelItem => item.DateOfBirth.Date)" />   
+                </td>
+                <td>
+                    <input type="text" id="Phone_@item.Id" value="@Html.DisplayFor(modelItem => item.Phone)" />    
+                </td>
+                <td>
+                    <input type="text" id="Salary_@item.Id" value="@Html.DisplayFor(modelItem => item.Salary)" />    
+                </td>
+                <td>
+                    <input type="checkbox" id="IsMaried_@item.Id" value="@Html.DisplayFor(modelItem => item.IsMaried)" />    
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <input type="button" class="btn btn-primary" id="btnEditProd_@item.Id" value="Inline_Edit" onclick="editRowProductData(@item.Id)" />
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<script>$('#example').on('click', 'tbody td:not(:first-child)', function (e) {
+        editor.inline(this);
+    });</script>
+
+<script>
+    function editRowProductData(i) {
+
+        var id = document.getElementById(full_name_ + i.toString()).innerText
+        var date = document.getElementById(DateOfBirth_ + i.toString()).innerText
+        var phone = document.getElementById(Phone_ + i.toString()).innerText
+        var salary = document.getElementById(Salary_ + i.toString()).innerText
+        var isMaried = document.getElementById(IsMaried_ + i.toString()).innerText
+        Id, FullName, DateOfBirth, Phone, Salary, IsMaried
+
+
+        $.ajax(
+            {
+                type: 'POST',
+                dataType: 'JSON',
+                url: '@Url.Action("Edit", "Home")',
+                data: { Id: id, DateOfBirth: date, Phone:phone, Salary: salary, isMaried: isMaried },
+                success:
+                    function (response) {
+                        convertJsonToHtmlTable(JSON.parse(response), $("#TableId"));
+                    },
+                error:
+                    function (response) {
+                        alert("Error: " + response);
+                    }
+            });
+    }
+
+</script>
