@@ -54,19 +54,19 @@
             <tr>
                 <td>
 
-                   <input type="text" id="full_name_@item.Id" value="@Html.DisplayFor(modelItem => item.FullName)"/> 
+                 @Html.DisplayFor(modelItem => item.FullName)
                 </td>
                 <td>
-                    <input type="date" id="DateOfBirth_@item.Id" value="@Html.DisplayFor(modelItem => item.DateOfBirth.Date)" />   
+                   @Html.DisplayFor(modelItem => item.DateOfBirth.Date)" 
                 </td>
                 <td>
-                    <input type="text" id="Phone_@item.Id" value="@Html.DisplayFor(modelItem => item.Phone)" />    
+                   @Html.DisplayFor(modelItem => item.Phone) 
                 </td>
                 <td>
-                    <input type="text" id="Salary_@item.Id" value="@Html.DisplayFor(modelItem => item.Salary)" />    
+                 @Html.DisplayFor(modelItem => item.Salary)  
                 </td>
                 <td>
-                    <input type="checkbox" id="IsMaried_@item.Id" value="@Html.DisplayFor(modelItem => item.IsMaried)" />    
+                    @Html.DisplayFor(modelItem => item.IsMaried)  
                 </td>
                 <td>
                     <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
